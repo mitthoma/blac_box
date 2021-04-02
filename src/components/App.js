@@ -16,12 +16,27 @@ class App extends Component {
 
   async loadWeb3() {
     //Setting up Web3
+
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    } else if(window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    } else {
+      window.alert("Non-Ethereum browser detected.")
+    }
   }
 
   async loadBlockchainData() {
     //Declare Web3
 
+    const web3 = window.web3
+    console.log(web3);
+
     //Load account
+
+    const accounts = await web3.eth.getAccounts();
+    this.setState({ account: accounts[0] });
 
     //Network ID
 
@@ -54,7 +69,7 @@ class App extends Component {
 
       //Assign value for the file without extension
 
-      //Call smart contract uploadFile function 
+      //Call smart contract uploadFile function
 
   }
 
@@ -62,6 +77,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+
     }
 
     //Bind functions
